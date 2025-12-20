@@ -1,0 +1,78 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ category.name }} | BlackWood{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <!-- Хлебные крошки -->
+        <nav aria-label="breadcrumb" class="mb-5">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'main:index' %}">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'main:category' %}">Категории</a></li>
+                <li class="breadcrumb-item active">{{ category.name }}</li>
+            </ol>
+        </nav>
+
+        <div class="row mb-5">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold">{{ category.name }}</h1>
+                <p class="text-muted fs-5">{{ category.description }}</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            {% for product in fur %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card-product h-100">
+                    <!-- Бейдж -->
+                    {% if forloop.counter <= 2 %}
+                    <div class="position-absolute top-0 start-0 m-3">
+                        <span class="badge glass-card">НОВИНКА</span>
+                    </div>
+                    {% endif %}
+
+                    <!-- Изображение -->
+                    <div class="position-relative overflow-hidden" style="height: 250px;">
+                        <img src="{{ product.image.url }}"
+                             class="img-fluid w-100 h-100 object-fit-cover"
+                             alt="{{ product.name }}">
+                        <div class="position-absolute bottom-0 start-0 w-100 p-3">
+                            <span class="price-tag">{{ product.price }} ₽</span>
+                        </div>
+                    </div>
+
+                    <!-- Информация -->
+                    <div class="p-4 d-flex flex-column" style="height: calc(100% - 250px);">
+                        <h3 class="h5 fw-bold mb-2">{{ product.name }}</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">{{ product.description|truncatewords:15 }}</p>
+
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <span class="text-muted small">Арт: {{ product.id|stringformat:"06d" }}</span>
+
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'main:furniture_detail' product.slug %}"
+                                   class="btn btn-sm btn-outline-light">
+                                    <i class="bi bi-eye me-1"></i>
+                                </a>
+
+                                <button class="btn btn-sm btn-neon">
+                                    <i class="bi bi-cart-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <h4 class="text-muted mb-3">Товары в этой категории скоро появятся</h4>
+                <a href="{% url 'main:category' %}" class="btn-neon">
+                    <i class="bi bi-arrow-left me-2"></i>К категориям
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

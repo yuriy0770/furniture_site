@@ -1,0 +1,47 @@
+{% extends 'main/base.html' %}
+
+{% block title %}BlackWood | Категории мебели{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h1 class="display-3 fw-bold mb-4">Наши направления</h1>
+                <p class="text-muted fs-5">Исследуйте мир элитной мебели</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            {% for category in cat %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card-product h-100">
+                    <div class="position-relative overflow-hidden" style="height: 250px;">
+                        <img src="{{ category.image.url }}"
+                             class="img-fluid w-100 h-100 object-fit-cover"
+                             alt="{{ category.name }}">
+                        <div class="position-absolute top-0 end-0 m-3">
+                            <span class="badge glass-card">{{ category.products.count }} моделей</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="h4 fw-bold mb-3">{{ category.name }}</h3>
+                        <p class="text-muted mb-4">{{ category.description|truncatewords:20 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{% url 'main:furniture' category.slug %}"
+                               class="btn-neon w-100">
+                                <i class="bi bi-eye me-2"></i>Исследовать
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <h4 class="text-muted">Категории пока не добавлены</h4>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

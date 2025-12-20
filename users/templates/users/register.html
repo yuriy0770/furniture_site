@@ -1,0 +1,162 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Регистрация | BlackWood{% endblock %}
+
+{% block content %}
+<section class="section-py">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <!-- Заголовок -->
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold gradient-text mb-3">Создание аккаунта</h1>
+                    <p class="text-muted">Присоединяйтесь к сообществу BlackWood</p>
+                </div>
+
+                <!-- Форма регистрации -->
+                <div class="glass-card p-5">
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Общие ошибки -->
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger glass-card mb-4" role="alert">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <!-- Поле username -->
+                        <div class="mb-4">
+                            <label for="id_username" class="form-label fw-bold">
+                                Имя пользователя *
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text glass-card border-end-0">
+                                    <i class="bi bi-person"></i>
+                                </span>
+                                <input type="text"
+                                       name="username"
+                                       id="id_username"
+                                       class="form-control glass-card"
+                                       placeholder="Придумайте имя пользователя"
+                                       required>
+                            </div>
+                            {% if form.username.errors %}
+                            <div class="text-danger small mt-2">
+                                <i class="bi bi-x-circle me-1"></i>
+                                {% for error in form.username.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Поле email -->
+                        <div class="mb-4">
+                            <label for="id_email" class="form-label fw-bold">
+                                Email *
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text glass-card border-end-0">
+                                    <i class="bi bi-envelope"></i>
+                                </span>
+                                <input type="email"
+                                       name="email"
+                                       id="id_email"
+                                       class="form-control glass-card"
+                                       placeholder="Ваш email"
+                                       required>
+                            </div>
+                            {% if form.email.errors %}
+                            <div class="text-danger small mt-2">
+                                <i class="bi bi-x-circle me-1"></i>
+                                {% for error in form.email.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Поле password1 -->
+                        <div class="mb-4">
+                            <label for="id_password1" class="form-label fw-bold">
+                                Пароль *
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text glass-card border-end-0">
+                                    <i class="bi bi-lock"></i>
+                                </span>
+                                <input type="password"
+                                       name="password1"
+                                       id="id_password1"
+                                       class="form-control glass-card"
+                                       placeholder="Придумайте надежный пароль"
+                                       required>
+                            </div>
+                            <div class="form-text text-muted small mt-2">
+                                <ul class="mb-0 ps-3">
+                                    <li>Минимум 8 символов</li>
+                                    <li>Не только цифры</li>
+                                    <li>Не похож на личные данные</li>
+                                </ul>
+                            </div>
+                            {% if form.password1.errors %}
+                            <div class="text-danger small mt-2">
+                                <i class="bi bi-x-circle me-1"></i>
+                                {% for error in form.password1.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Поле password2 -->
+                        <div class="mb-5">
+                            <label for="id_password2" class="form-label fw-bold">
+                                Подтверждение пароля *
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text glass-card border-end-0">
+                                    <i class="bi bi-lock-fill"></i>
+                                </span>
+                                <input type="password"
+                                       name="password2"
+                                       id="id_password2"
+                                       class="form-control glass-card"
+                                       placeholder="Повторите пароль"
+                                       required>
+                            </div>
+                            {% if form.password2.errors %}
+                            <div class="text-danger small mt-2">
+                                <i class="bi bi-x-circle me-1"></i>
+                                {% for error in form.password2.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Кнопка отправки -->
+                        <button type="submit" class="btn-neon w-100 py-3 fw-bold">
+                            <i class="bi bi-person-plus me-2"></i>Создать аккаунт
+                        </button>
+
+                        <!-- Ссылка на вход -->
+                        <div class="text-center mt-4">
+                            <p class="text-muted mb-0">
+                                Уже есть аккаунт?
+                                <a href="{% url 'users:login' %}" class="text-decoration-none gradient-text fw-bold">
+                                    Войдите здесь
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

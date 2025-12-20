@@ -1,0 +1,105 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Контакты | BlackWood{% endblock %}
+
+{% block content %}
+<section class="section-py">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold gradient-text mb-3">Контакты</h1>
+            <p class="text-muted">Свяжитесь с нами удобным для вас способом</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 mb-5">
+                <div class="glass-card p-4 h-100">
+                    <h3 class="fw-bold mb-4">
+                        <i class="bi bi-geo-alt me-2"></i>Наш шоурум
+                    </h3>
+                    
+                    <div class="mb-4">
+                        <h5 class="fw-bold mb-2">Адрес</h5>
+                        <p class="text-muted mb-0">
+                            <i class="bi bi-building me-2"></i>
+                            {{ contacts.address }}
+                        </p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5 class="fw-bold mb-2">Часы работы шоурума</h5>
+                        <p class="text-muted mb-0">
+                            <i class="bi bi-clock me-2"></i>
+                            {{ contacts.showroom_hours }}
+                        </p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5 class="fw-bold mb-2">Консультации и заказы</h5>
+                        <p class="text-muted mb-2">
+                            <i class="bi bi-telephone me-2"></i>
+                            <a href="tel:{{ contacts.phone }}" class="text-decoration-none text-muted">
+                                {{ contacts.phone }}
+                            </a>
+                        </p>
+                        <p class="text-muted mb-0">
+                            <i class="bi bi-envelope me-2"></i>
+                            <a href="mailto:{{ contacts.email }}" class="text-decoration-none text-muted">
+                                {{ contacts.email }}
+                            </a>
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <h5 class="fw-bold mb-3">Мы в соцсетях</h5>
+                        <div class="d-flex gap-3">
+                            {% for social in social_links %}
+                            <a href="{{ social.url }}" 
+                               class="text-decoration-none glass-card p-3"
+                               target="_blank"
+                               title="{{ social.name }}">
+                                <i class="bi {{ social.icon }} fs-4"></i>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="glass-card p-4 h-100">
+                    <h3 class="fw-bold mb-4">
+                        <i class="bi bi-chat-dots me-2"></i>Напишите нам
+                    </h3>
+                    
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Ваше имя</label>
+                            <input type="text" class="form-control glass-card" placeholder="Иван Иванов">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Email</label>
+                            <input type="email" class="form-control glass-card" placeholder="ivan@example.com">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Телефон</label>
+                            <input type="tel" class="form-control glass-card" placeholder="+7 (999) 123-45-67">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Сообщение</label>
+                            <textarea class="form-control glass-card" rows="4" 
+                                      placeholder="Расскажите о вашем проекте..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-neon w-100 py-3">
+                            <i class="bi bi-send me-2"></i>Отправить сообщение
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

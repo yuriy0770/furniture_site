@@ -1,0 +1,395 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Дизайн-проекты | BlackWood{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Увеличиваем картинки при наведении */
+    .project-card {
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: none;
+        overflow: hidden;
+    }
+
+    .project-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7),
+                    0 0 80px rgba(124, 58, 237, 0.3);
+    }
+
+    .project-image {
+        height: 300px;  /* Увеличили высоту картинки */
+        width: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    .project-card:hover .project-image {
+        transform: scale(1.05);
+    }
+
+    /* Скрываем детали по умолчанию, показываем при наведении */
+    .project-details {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        padding: 20px;
+        color: white;
+    }
+
+    .project-card:hover .project-details {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Стиль для бейджа */
+    .project-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 2;
+        background: rgba(124, 58, 237, 0.9);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-weight: 600;
+        padding: 8px 15px;
+    }
+
+    /* Галерея в модальном окне */
+    .modal-image {
+        max-height: 70vh;
+        width: auto;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .modal-content {
+        background: var(--primary-dark);
+        border: 1px solid rgba(124, 58, 237, 0.3);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="section-py">
+    <div class="container">
+        <!-- Заголовок с акцентом на визуал -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold gradient-text mb-2">Наши работы</h1>
+            <p class="text-muted fs-5">Вдохновляйтесь реализованными проектами</p>
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <span class="badge glass-card">Минимализм</span>
+                <span class="badge glass-card">Классика</span>
+                <span class="badge glass-card">Скандинавский</span>
+                <span class="badge glass-card">Лофт</span>
+            </div>
+        </div>
+
+        <!-- Грид с проектами - ТОЛЬКО КАРТИНКИ -->
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <!-- Проект 1 - Занимает 2 колонки на десктопе -->
+            <div class="col-12 col-lg-6">
+                <div class="project-card card-product position-relative"
+                     data-bs-toggle="modal"
+                     data-bs-target="#projectModal1">
+                    <div class="position-relative overflow-hidden rounded-3">
+                        <img src="{% static 'img/250a95e4ddc311f099381640bb9e3407_1.jpg' %}"
+                             class="project-image"
+                             alt="Современная гостиная в стиле минимализм">
+                        <span class="project-badge rounded-pill">
+                            Минимализм
+                        </span>
+                        <!-- Детали появляются при наведении -->
+                        <div class="project-details">
+                            <h5 class="fw-bold mb-1">Современная гостиная</h5>
+                            <p class="small mb-0">85 м² • 3 недели</p>
+                            <p class="small text-muted mt-2">Чистые линии, натуральные материалы</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Проект 2 -->
+            <div class="col-12 col-lg-6">
+                <div class="project-card card-product position-relative"
+                     data-bs-toggle="modal"
+                     data-bs-target="#projectModal2">
+                    <div class="position-relative overflow-hidden rounded-3">
+                        <img src="{% static 'img/a0bb2261ddc311f085d53e3650b2b7f8_1.jpg' %}"
+                             class="project-image"
+                             alt="Классическая столовая с дубовым столом">
+                        <span class="project-badge rounded-pill">
+                            Классика
+                        </span>
+                        <div class="project-details">
+                            <h5 class="fw-bold mb-1">Классическая столовая</h5>
+                            <p class="small mb-0">45 м² • 4 недели</p>
+                            <p class="small text-muted mt-2">Дубовый стол, кожаные стулья</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Проект 3 -->
+            <div class="col-12 col-lg-6">
+                <div class="project-card card-product position-relative"
+                     data-bs-toggle="modal"
+                     data-bs-target="#projectModal3">
+                    <div class="position-relative overflow-hidden rounded-3">
+                        <img src="{% static 'img/d345c390ddc711f0ae5d2abb7232ea76_1.jpg' %}"
+                             class="project-image"
+                             alt="Минималистичная спальня с панорамным окном">
+                        <span class="project-badge rounded-pill">
+                            Скандинавский
+                        </span>
+                        <div class="project-details">
+                            <h5 class="fw-bold mb-1">Минималистичная спальня</h5>
+                            <p class="small mb-0">35 м² • 2 недели</p>
+                            <p class="small text-muted mt-2">Панорамное окно, натуральное дерево</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Проект 4 -->
+            <div class="col-12 col-lg-6">
+                <div class="project-card card-product position-relative"
+                     data-bs-toggle="modal"
+                     data-bs-target="#projectModal4">
+                    <div class="position-relative overflow-hidden rounded-3">
+                        <img src="{% static 'img/028ddb10ddc811f0b5746e3932282319_1.jpg' %}"
+                             class="project-image"
+                             alt="Лофт-кабинет с индустриальными элементами">
+                        <span class="project-badge rounded-pill">
+                            Лофт
+                        </span>
+                        <div class="project-details">
+                            <h5 class="fw-bold mb-1">Лофт-кабинет</h5>
+                            <p class="small mb-0">55 м² • 5 недели</p>
+                            <p class="small text-muted mt-2">Кирпичная стена, металлические элементы</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка заказа проекта -->
+        <div class="text-center mt-5 pt-5">
+            <h3 class="fw-bold mb-4">Хотите такой же проект?</h3>
+            <a href="#consultation" class="btn-neon px-5 py-3 fs-5">
+                <i class="bi bi-calendar-check me-2"></i>Заказать консультацию
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Форма консультации (якорь) -->
+<section id="consultation" class="section-py">
+    <div class="container">
+        <div class="glass-card p-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h3 class="fw-bold gradient-text mb-3">Создадим ваш идеальный интерьер</h3>
+                    <p class="text-muted mb-4">
+                        Оставьте заявку и наш дизайнер свяжется с вами для бесплатной консультации.
+                        Мы создадим интерьер, который будет отражать ваш стиль и характер.
+                    </p>
+                    <ul class="text-muted mb-0">
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Бесплатная консультация</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>3D-визуализация</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Подбор мебели</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i>Авторский надзор</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <form class="glass-card p-4">
+                        <h5 class="fw-bold mb-3">Оставьте заявку</h5>
+                        <div class="mb-3">
+                            <input type="text" class="form-control glass-card" placeholder="Ваше имя" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="tel" class="form-control glass-card" placeholder="Телефон" required>
+                        </div>
+                        <div class="mb-3">
+                            <select class="form-control glass-card">
+                                <option value="">Выберите стиль</option>
+                                <option value="minimalism">Минимализм</option>
+                                <option value="classic">Классика</option>
+                                <option value="scandinavian">Скандинавский</option>
+                                <option value="loft">Лофт</option>
+                                <option value="modern">Современный</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control glass-card" rows="3"
+                                      placeholder="Опишите ваши пожелания..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-neon w-100">
+                            <i class="bi bi-pencil-square me-2"></i>Получить консультацию
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Модальные окна для увеличения картинок -->
+<!-- Проект 1 -->
+<div class="modal fade" id="projectModal1" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold">Современная гостиная • Минимализм</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <img src="{% static 'img/250a95e4ddc311f099381640bb9e3407_1.jpg' %}"
+                     class="modal-image"
+                     alt="Современная гостиная в стиле минимализм">
+            </div>
+            <div class="modal-footer border-0">
+                <div class="w-100">
+                    <h6 class="fw-bold mb-2">Описание проекта</h6>
+                    <p class="text-muted mb-3">Современная гостиная в стиле минимализм с акцентом на чистые линии и натуральные материалы. Большие окна обеспечивают обилие естественного света.</p>
+                    <div class="d-flex justify-content-between text-muted">
+                        <span><i class="bi bi-arrows-fullscreen me-1"></i>85 м²</span>
+                        <span><i class="bi bi-clock me-1"></i>3 недели</span>
+                        <span><i class="bi bi-cash-stack me-1"></i>от 1.5 млн ₽</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Проект 2 -->
+<div class="modal fade" id="projectModal2" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold">Классическая столовая • Классика</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <img src="{% static 'img/a0bb2261ddc311f085d53e3650b2b7f8_1.jpg' %}"
+                     class="modal-image"
+                     alt="Классическая столовая с дубовым столом">
+            </div>
+            <div class="modal-footer border-0">
+                <div class="w-100">
+                    <h6 class="fw-bold mb-2">Описание проекта</h6>
+                    <p class="text-muted mb-3">Роскошная классическая столовая с дубовым столом и кожаными стульями. Элегантное освещение и внимание к деталям создают атмосферу особняка.</p>
+                    <div class="d-flex justify-content-between text-muted">
+                        <span><i class="bi bi-arrows-fullscreen me-1"></i>45 м²</span>
+                        <span><i class="bi bi-clock me-1"></i>4 недели</span>
+                        <span><i class="bi bi-cash-stack me-1"></i>от 2 млн ₽</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Проект 3 -->
+<div class="modal fade" id="projectModal3" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold">Минималистичная спальня • Скандинавский стиль</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <img src="{% static 'img/d345c390ddc711f0ae5d2abb7232ea76_1.jpg' %}"
+                     class="modal-image"
+                     alt="Минималистичная спальня с панорамным окном">
+            </div>
+            <div class="modal-footer border-0">
+                <div class="w-100">
+                    <h6 class="fw-bold mb-2">Описание проекта</h6>
+                    <p class="text-muted mb-3">Спальня в скандинавском стиле с панорамным окном. Натуральное дерево, спокойные тона и минимум деталей создают атмосферу уюта и спокойствия.</p>
+                    <div class="d-flex justify-content-between text-muted">
+                        <span><i class="bi bi-arrows-fullscreen me-1"></i>35 м²</span>
+                        <span><i class="bi bi-clock me-1"></i>2 недели</span>
+                        <span><i class="bi bi-cash-stack me-1"></i>от 1.2 млн ₽</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Проект 4 -->
+<div class="modal fade" id="projectModal4" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold">Лофт-кабинет • Лофт</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <img src="{% static 'img/028ddb10ddc811f0b5746e3932282319_1.jpg' %}"
+                     class="modal-image"
+                     alt="Лофт-кабинет с индустриальными элементами">
+            </div>
+            <div class="modal-footer border-0">
+                <div class="w-100">
+                    <h6 class="fw-bold mb-2">Описание проекта</h6>
+                    <p class="text-muted mb-3">Индустриальный лофт-кабинет с кирпичными стенами и металлическими элементами. Открытые коммуникации и функциональный дизайн для творческой работы.</p>
+                    <div class="d-flex justify-content-between text-muted">
+                        <span><i class="bi bi-arrows-fullscreen me-1"></i>55 м²</span>
+                        <span><i class="bi bi-clock me-1"></i>5 недель</span>
+                        <span><i class="bi bi-cash-stack me-1"></i>от 1.8 млн ₽</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Плавная прокрутка к форме
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            window.scrollTo({
+                top: targetElement.offsetTop - 80,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// Анимация при клике на карточку
+document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', function() {
+        this.classList.add('animate__animated', 'animate__pulse');
+        setTimeout(() => {
+            this.classList.remove('animate__animated', 'animate__pulse');
+        }, 1000);
+    });
+});
+
+// Отправка формы (заглушка)
+document.querySelector('#consultation form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Спасибо! Мы свяжемся с вами в ближайшее время для консультации.');
+    this.reset();
+});
+</script>
+{% endblock %}

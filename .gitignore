@@ -1,0 +1,62 @@
+# Environment variables
+.env
+.env.local
+.env.prod
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Django specific
+/static/
+/media/
+/instance/
+.webassets-cache
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# PyCharm
+.idea/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# celery
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json

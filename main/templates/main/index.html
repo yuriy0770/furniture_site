@@ -1,0 +1,662 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}BlackWood | Премиальная мебель будущего{% endblock %}
+
+{% block content %}
+<!-- Герой секция с анимацией -->
+<section class="hero-section">
+    <div class="container position-relative" style="z-index: 2;">
+        <div class="row align-items-center min-vh-100 py-5">
+            <div class="col-lg-8">
+                <!-- Анимированный бейдж -->
+                <div class="d-inline-block glass-card px-4 py-2 mb-4">
+                    <span class="gradient-text fw-bold">
+                        <i class="bi bi-stars me-2"></i>ЭКСКЛЮЗИВ 2024
+                    </span>
+                </div>
+
+                <!-- Главный заголовок с эффектом -->
+                <h1 class="display-1 fw-bold mb-4">
+                    <span class="gradient-text">Чёрное</span> золото<br>
+                    для вашего интерьера
+                </h1>
+
+                <!-- Подзаголовок -->
+                <p class="lead mb-5 text-muted fs-4" style="max-width: 600px;">
+                    Элегантность в каждой детали. Качество в каждом шве.
+                    Стиль, который говорит сам за себя.
+                </p>
+
+                <!-- Кнопки действий -->
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{% url 'main:category' %}" class="btn-neon btn-lg">
+                        <i class="bi bi-grid-3x3-gap me-2"></i>Смотреть каталог
+                    </a>
+                    <button type="button" class="btn btn-outline-light btn-lg glass-card" data-bs-toggle="modal"
+                       data-bs-target="#tourModal">
+                        <i class="bi bi-vr me-2"></i>Иммерсивный 3D-тур
+                    </button>
+                </div>
+            </div>
+
+            <!-- Статичное стильное изображение -->
+            <div class="col-lg-4">
+                <div class="position-relative">
+                    <!-- Главное изображение -->
+                    <div class="card-product overflow-hidden" style="height: 400px; border-radius: 40px;">
+                        <img src="{% static 'img/1a3378d9dc0a11f0bc00824f6716ddcd_1.jpg' %}"
+                             class="img-fluid w-100 h-100 object-fit-cover"
+                             alt="Элитная мебель BlackWood"
+                             style="filter: brightness(0.9) contrast(1.1);">
+                    </div>
+
+                    <!-- Декоративные элементы -->
+                    <div class="position-absolute top-0 start-0 translate-middle">
+                        <div class="glass-card p-3 rounded-circle shadow-lg">
+                            <i class="bi bi-award-fill fs-4" style="color: #7c3aed;"></i>
+                        </div>
+                    </div>
+
+                    <div class="position-absolute bottom-0 end-0 translate-middle-y">
+                        <div class="glass-card p-3 rounded-circle shadow-lg">
+                            <i class="bi bi-gem fs-4" style="color: #06b6d4;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Ценности бренда -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="glass-card p-5 h-100 text-center">
+                    <div class="mb-4">
+                        <div class="d-inline-block p-3 rounded-circle"
+                             style="background: rgba(124, 58, 237, 0.1);">
+                            <i class="bi bi-diamond fs-2" style="color: #7c3aed;"></i>
+                        </div>
+                    </div>
+                    <h4 class="fw-bold mb-3">Элитные материалы</h4>
+                    <p class="text-muted">Натуральная кожа, мрамор, ценные породы дерева</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="glass-card p-5 h-100 text-center">
+                    <div class="mb-4">
+                        <div class="d-inline-block p-3 rounded-circle"
+                             style="background: rgba(6, 182, 212, 0.1);">
+                            <i class="bi bi-rulers fs-2" style="color: #06b6d4;"></i>
+                        </div>
+                    </div>
+                    <h4 class="fw-bold mb-3">Индивидуальный пошив</h4>
+                    <p class="text-muted">Изготовление по вашим размерам и эскизам</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="glass-card p-5 h-100 text-center">
+                    <div class="mb-4">
+                        <div class="d-inline-block p-3 rounded-circle"
+                             style="background: rgba(16, 185, 129, 0.1);">
+                            <i class="bi bi-truck fs-2" style="color: #10b981;"></i>
+                        </div>
+                    </div>
+                    <h4 class="fw-bold mb-3">Белая перчатка</h4>
+                    <p class="text-muted">Доставка, сборка и уборка в подарок</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Популярные категории -->
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="display-3 fw-bold mb-3">
+                    <span class="gradient-text">Коллекции</span>
+                </h2>
+                <p class="text-muted fs-5">Выберите направление для вдохновения</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            {% if categories %}
+                {% for category in categories %}
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-product h-100 position-relative overflow-hidden">
+                        <!-- Градиентная обводка при наведении -->
+                        <div class="position-absolute top-0 start-0 w-100 h-100"
+                             style="background: linear-gradient(45deg, transparent, rgba(124, 58, 237, 0.1), transparent);
+                                    transform: translateX(-100%);
+                                    transition: transform 0.6s ease;">
+                        </div>
+
+                        <div class="position-relative overflow-hidden" style="height: 250px;">
+                            <img src="{{ category.image.url }}"
+                                 class="img-fluid w-100 h-100 object-fit-cover"
+                                 alt="{{ category.name }}"
+                                 style="transition: transform 0.5s ease;">
+                        </div>
+                        <div class="p-4 position-relative">
+                            <h5 class="fw-bold mb-2">{{ category.name }}</h5>
+                            <p class="text-muted small mb-3">{{ category.description|truncatewords:8 }}</p>
+                            <a href="{% url 'main:furniture' category.slug %}"
+                               class="btn-neon btn-sm w-100">
+                                Смотреть <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center py-5">
+                    <p class="text-muted">Коллекции скоро появятся</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Баннер с текстом -->
+<section class="py-5">
+    <div class="container">
+        <div class="glass-card p-5">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h2 class="display-5 fw-bold mb-3">
+                        Мебель, которая становится <span class="gradient-text">наследием</span>
+                    </h2>
+                    <p class="text-muted mb-0">
+                        Мы создаём не просто предметы интерьера, а семейные реликвии,
+                        которые передаются из поколения в поколение.
+                    </p>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <button type="button" class="btn-neon btn-lg" data-bs-toggle="modal" data-bs-target="#tourModal">
+                        <i class="bi bi-vr me-2"></i>Начать 3D-тур
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Модальное окно 3D-тура -->
+<div class="modal fade" id="tourModal" tabindex="-1" aria-labelledby="tourModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content glass-card"
+             style="background: rgba(10, 10, 10, 0.95); border: 1px solid rgba(124, 58, 237, 0.3);">
+            <div class="modal-header border-0">
+                <h5 class="modal-title gradient-text fs-3" id="tourModalLabel">
+                    <i class="bi bi-vr me-2"></i>Иммерсивный 3D-тур BlackWood
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <!-- Контейнер для тура -->
+                <div id="panoramaContainer" style="width: 100%; height: 500px; position: relative;">
+                    <!-- Интерактивный просмотрщик -->
+                    <div id="panoramaViewer"
+                         style="width: 100%; height: 100%; background: linear-gradient(45deg, #0a0a0a, #1a1a1a);
+                                border-radius: 8px; overflow: hidden; position: relative;">
+
+                        <!-- Простое изображение без точек -->
+                        <img id="tourImage"
+                             src="{% static 'img/360-living-room.jpg' %}"
+                             class="w-100 h-100 object-fit-cover"
+                             alt="3D тур BlackWood"
+                             style="transform: perspective(1000px) rotateX(0deg) rotateY(0deg);">
+                    </div>
+                </div>
+
+                <!-- Навигация по комнатам -->
+                <div class="p-4">
+                    <h6 class="fw-bold mb-3 gradient-text">Перемещение по пространству:</h6>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <button class="btn-room w-100 active" data-room="living"
+                                    data-img="{% static 'img/360-living-room.jpg' %}">
+                                <div class="d-flex align-items-center">
+                                    <div class="room-icon me-3">
+                                        <i class="bi bi-house-door fs-4"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <div class="fw-bold">Гостиная</div>
+                                        <small class="text-muted">Коллекция "Nebula"</small>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn-room w-100" data-room="bedroom"
+                                    data-img="{% static 'img/360-bedroom.jpg' %}">
+                                <div class="d-flex align-items-center">
+                                    <div class="room-icon me-3">
+                                        <i class="bi bi-moon fs-4"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <div class="fw-bold">Спальня</div>
+                                        <small class="text-muted">Кровать "Eclipse"</small>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn-room w-100" data-room="office"
+                                    data-img="{% static 'img/360-office.jpg' %}">
+                                <div class="d-flex align-items-center">
+                                    <div class="room-icon me-3">
+                                        <i class="bi bi-laptop fs-4"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <div class="fw-bold">Кабинет</div>
+                                        <small class="text-muted">Рабочий стол "Orion"</small>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Управление -->
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-light" id="zoomIn">
+                                    <i class="bi bi-zoom-in"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-light" id="zoomOut">
+                                    <i class="bi bi-zoom-out"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-light" id="autoRotate">
+                                    <i class="bi bi-arrow-clockwise"></i> Автоповорот
+                                </button>
+                                <button class="btn btn-sm btn-outline-light" id="resetView">
+                                    <i class="bi bi-arrow-counterclockwise"></i> Сброс
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <div class="text-muted small">
+                                <i class="bi bi-mouse"></i> Перетаскивайте для обзора •
+                                <i class="bi bi-mouse2"></i> Колесико для приближения
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-neon" id="fullscreenTour">
+                    <i class="bi bi-arrows-fullscreen me-2"></i>Полноэкранный режим
+                </button>
+                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">
+                    <i class="bi bi-x-lg me-2"></i>Закрыть тур
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Анимация градиента при наведении на карточки
+    document.querySelectorAll('.card-product').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.querySelector('img').style.transform = 'scale(1.05)';
+            this.querySelector('.position-absolute').style.transform = 'translateX(100%)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.querySelector('img').style.transform = 'scale(1)';
+            this.querySelector('.position-absolute').style.transform = 'translateX(-100%)';
+        });
+    });
+
+    // 3D-тур логика
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Инициализация 3D-тура...');
+
+        // Переменные
+        let currentZoom = 1;
+        let isAutoRotating = false;
+        let rotationInterval;
+        let rotateX = 0, rotateY = 0;
+        let isDragging = false;
+        let startX, startY;
+
+        // Элементы
+        const panoramaViewer = document.getElementById('panoramaViewer');
+        const tourImage = document.getElementById('tourImage');
+        const roomButtons = document.querySelectorAll('.btn-room');
+        const zoomInBtn = document.getElementById('zoomIn');
+        const zoomOutBtn = document.getElementById('zoomOut');
+        const autoRotateBtn = document.getElementById('autoRotate');
+        const resetViewBtn = document.getElementById('resetView');
+        const fullscreenBtn = document.getElementById('fullscreenTour');
+
+        // Проверка элементов
+        console.log('Элементы тура:', {
+            panoramaViewer: !!panoramaViewer,
+            tourImage: !!tourImage,
+            roomButtons: roomButtons.length
+        });
+
+        // Функция обновления трансформации изображения
+        function updateImageTransform() {
+            if (tourImage) {
+                tourImage.style.transform = `
+                    perspective(1000px)
+                    rotateX(${rotateX}deg)
+                    rotateY(${rotateY}deg)
+                    scale(${currentZoom})
+                `;
+                tourImage.style.transition = 'transform 0.1s linear';
+            }
+        }
+
+        // Переключение комнат
+        roomButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Сброс вращения и зума
+                rotateX = 0;
+                rotateY = 0;
+                currentZoom = 1;
+
+                // Обновляем активную кнопку
+                roomButtons.forEach(btn => {
+                    btn.classList.remove('active', 'btn-neon');
+                    btn.classList.add('btn-outline-light');
+                });
+                this.classList.remove('btn-outline-light');
+                this.classList.add('active', 'btn-neon');
+
+                // Меняем изображение
+                const roomImg = this.getAttribute('data-img');
+                const room = this.getAttribute('data-room');
+
+                if (tourImage) {
+                    // Плавная смена изображения
+                    tourImage.style.opacity = '0.5';
+                    tourImage.style.transition = 'opacity 0.3s ease';
+
+                    setTimeout(() => {
+                        tourImage.src = roomImg;
+                        tourImage.alt = room === 'living' ? 'Гостиная BlackWood' :
+                                      room === 'bedroom' ? 'Спальня BlackWood' : 'Кабинет BlackWood';
+                        tourImage.style.opacity = '1';
+                        updateImageTransform();
+                    }, 300);
+                }
+
+                console.log('Переключились на комнату:', room);
+            });
+        });
+
+        // Управление зумом
+        zoomInBtn?.addEventListener('click', () => {
+            currentZoom = Math.min(currentZoom + 0.2, 3);
+            updateImageTransform();
+        });
+
+        zoomOutBtn?.addEventListener('click', () => {
+            currentZoom = Math.max(currentZoom - 0.2, 0.5);
+            updateImageTransform();
+        });
+
+        // Сброс вида
+        resetViewBtn?.addEventListener('click', () => {
+            rotateX = 0;
+            rotateY = 0;
+            currentZoom = 1;
+            updateImageTransform();
+        });
+
+        // Автоповорот
+        autoRotateBtn?.addEventListener('click', function() {
+            isAutoRotating = !isAutoRotating;
+
+            if (isAutoRotating) {
+                this.classList.add('btn-neon');
+                this.innerHTML = '<i class="bi bi-pause"></i> Стоп';
+
+                rotationInterval = setInterval(() => {
+                    rotateY += 0.5;
+                    updateImageTransform();
+                }, 50);
+            } else {
+                this.classList.remove('btn-neon');
+                this.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Автоповорот';
+                clearInterval(rotationInterval);
+            }
+        });
+
+        // Полноэкранный режим
+        fullscreenBtn?.addEventListener('click', function() {
+            const container = document.getElementById('panoramaViewer');
+
+            if (!document.fullscreenElement) {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                }
+                this.innerHTML = '<i class="bi bi-fullscreen-exit me-2"></i>Выйти из полноэкранного';
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+                this.innerHTML = '<i class="bi bi-arrows-fullscreen me-2"></i>Полноэкранный режим';
+            }
+        });
+
+        // Drag для вращения
+        if (panoramaViewer && tourImage) {
+            panoramaViewer.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                panoramaViewer.style.cursor = 'grabbing';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+
+                rotateY += deltaX * 0.5;
+                rotateX -= deltaY * 0.3;
+                rotateX = Math.max(-60, Math.min(60, rotateX));
+
+                updateImageTransform();
+
+                startX = e.clientX;
+                startY = e.clientY;
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                panoramaViewer.style.cursor = 'grab';
+            });
+
+            // Начальный курсор
+            panoramaViewer.style.cursor = 'grab';
+
+            // Зум колесиком мыши
+            panoramaViewer.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                currentZoom = Math.max(0.5, Math.min(3, currentZoom - e.deltaY * 0.001));
+                updateImageTransform();
+            });
+
+            // Для мобильных устройств
+            panoramaViewer.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            }, { passive: true });
+
+            document.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+
+                const deltaX = e.touches[0].clientX - startX;
+                const deltaY = e.touches[0].clientY - startY;
+
+                rotateY += deltaX * 0.5;
+                rotateX -= deltaY * 0.3;
+                rotateX = Math.max(-60, Math.min(60, rotateX));
+
+                updateImageTransform();
+
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            }, { passive: false });
+
+            document.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+
+            // Зум пинчем для мобильных
+            let initialDistance = null;
+
+            panoramaViewer.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 2) {
+                    initialDistance = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+                }
+            });
+
+            panoramaViewer.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 2 && initialDistance !== null) {
+                    e.preventDefault();
+
+                    const currentDistance = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+
+                    const zoomDelta = (currentDistance - initialDistance) * 0.01;
+                    currentZoom = Math.max(0.5, Math.min(3, currentZoom + zoomDelta));
+                    updateImageTransform();
+
+                    initialDistance = currentDistance;
+                }
+            });
+
+            panoramaViewer.addEventListener('touchend', () => {
+                initialDistance = null;
+            });
+        }
+
+        // Инициализация при открытии модального окна
+        const modalElement = document.getElementById('tourModal');
+        if (modalElement) {
+            modalElement.addEventListener('shown.bs.modal', function() {
+                console.log('Модальное окно 3D-тура открыто!');
+
+                // Сброс состояния
+                rotateX = 0;
+                rotateY = 0;
+                currentZoom = 1;
+                updateImageTransform();
+
+                // Анимация появления
+                if (panoramaViewer) {
+                    panoramaViewer.style.opacity = '0';
+                    panoramaViewer.style.transform = 'scale(0.95)';
+
+                    setTimeout(() => {
+                        panoramaViewer.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                        panoramaViewer.style.opacity = '1';
+                        panoramaViewer.style.transform = 'scale(1)';
+                    }, 10);
+                }
+            });
+
+            // При закрытии модального окна
+            modalElement.addEventListener('hidden.bs.modal', function() {
+                // Останавливаем автоповорот
+                isAutoRotating = false;
+                clearInterval(rotationInterval);
+                if (autoRotateBtn) {
+                    autoRotateBtn.classList.remove('btn-neon');
+                    autoRotateBtn.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Автоповорот';
+                }
+            });
+        }
+
+        console.log('3D-тур готов! Без точек, чистое управление изображением.');
+    });
+</script>
+
+<style>
+    /* Стили для 3D-тура */
+    .btn-room {
+        background: rgba(20, 20, 20, 0.7);
+        border: 1px solid rgba(124, 58, 237, 0.2);
+        border-radius: 12px;
+        padding: 1rem;
+        color: var(--text-light);
+        transition: all 0.3s ease;
+        text-align: left;
+    }
+
+    .btn-room:hover, .btn-room.active {
+        border-color: #7c3aed;
+        background: rgba(124, 58, 237, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .btn-room.active {
+        background: rgba(124, 58, 237, 0.15);
+        box-shadow: 0 5px 15px rgba(124, 58, 237, 0.2);
+    }
+
+    .room-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(124, 58, 237, 0.1);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #panoramaViewer {
+        cursor: grab;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    #panoramaViewer:active {
+        cursor: grabbing;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+        .btn-room {
+            padding: 0.75rem;
+        }
+
+        .room-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        #tourImage {
+            transition: transform 0.05s linear !important;
+        }
+    }
+</style>
+{% endblock %}

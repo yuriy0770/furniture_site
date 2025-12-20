@@ -1,0 +1,317 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Профиль | {{ user.username }}{% endblock %}
+
+{% block content %}
+<section class="section-py">
+    <div class="container">
+        <!-- Заголовок -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold gradient-text mb-3">Личный кабинет</h1>
+            <p class="text-muted">Управление вашим аккаунтом BlackWood</p>
+        </div>
+
+        <div class="row">
+            <!-- Боковая панель -->
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <div class="glass-card p-4 sticky-top" style="top: 100px;">
+                    <!-- Аватар и информация -->
+                    <div class="text-center mb-4">
+                        <div class="mb-3 position-relative">
+                            {% if user.avatar %}
+                                <img src="{{ user.avatar.url }}"
+                                     alt="Аватар {{ user.username }}"
+                                     class="rounded-circle"
+                                     width="120"
+                                     height="120"
+                                     style="object-fit: cover; border: 3px solid var(--accent-primary);">
+                            {% else %}
+                                <div class="rounded-circle d-inline-flex align-items-center justify-content-center"
+                                     style="width: 120px; height: 120px; background: var(--gradient-primary);">
+                                    <i class="bi bi-person display-4 text-white"></i>
+                                </div>
+                            {% endif %}
+                            <button class="btn btn-sm btn-neon position-absolute bottom-0 end-0 rounded-circle"
+                                    style="width: 36px; height: 36px;"
+                                    onclick="document.getElementById('id_avatar').click()">
+                                <i class="bi bi-camera"></i>
+                            </button>
+                        </div>
+                        <h4 class="fw-bold mb-1">{{ user.username }}</h4>
+                        <p class="text-muted mb-0">{{ user.email|default:"Email не указан" }}</p>
+                        <span class="badge glass-card mt-2">
+                            Клиент с {{ user.date_joined|date:"d.m.Y" }}
+                        </span>
+                    </div>
+
+                    <!-- Статистика -->
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Заказов</span>
+                            <span class="fw-bold">0</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">В избранном</span>
+                            <span class="fw-bold">0</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted">Отзывов</span>
+                            <span class="fw-bold">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Навигация -->
+                    <ul class="nav flex-column gap-2">
+                        <li class="nav-item">
+                            <a class="nav-link active glass-card d-flex align-items-center"
+                               href="{% url 'users:profile' %}">
+                                <i class="bi bi-person me-2"></i>Профиль
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link glass-card d-flex align-items-center"
+                               href="{% url 'main:cart' %}">
+                                <i class="bi bi-cart me-2"></i>Корзина
+                                {% if user.cart.item_count > 0 %}
+                                <span class="badge glass-card ms-auto">
+                                    {{ user.cart.item_count }}
+                                </span>
+                                {% endif %}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link glass-card d-flex align-items-center" href="#">
+                                <i class="bi bi-heart me-2"></i>Избранное
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link glass-card d-flex align-items-center" href="#">
+                                <i class="bi bi-clock-history me-2"></i>История заказов
+                            </a>
+                        </li>
+                        <li class="nav-item mt-3">
+                            <a class="nav-link glass-card d-flex align-items-center text-danger"
+                               href="{% url 'users:logout' %}">
+                                <i class="bi bi-box-arrow-right me-2"></i>Выйти
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Основной контент - форма редактирования -->
+            <div class="col-lg-8">
+                <div class="glass-card p-4 p-md-5">
+                    <h3 class="fw-bold mb-4">
+                        <i class="bi bi-pencil-square me-2"></i>Редактирование профиля
+                    </h3>
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Сообщения -->
+                        {% if messages %}
+                        <div class="mb-4">
+                            {% for message in messages %}
+                            <div class="alert glass-card alert-{{ message.tags }} mb-3">
+                                <i class="bi {% if message.tags == 'success' %}bi-check-circle{% else %}bi-exclamation-circle{% endif %} me-2"></i>
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="row">
+                            <!-- Аватар -->
+                            <div class="col-12 mb-4">
+                                <label class="form-label fw-bold">Аватар</label>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-4">
+                                        {% if user.avatar %}
+                                            <img src="{{ user.avatar.url }}"
+                                                 alt="Текущий аватар"
+                                                 class="rounded-circle"
+                                                 width="80"
+                                                 height="80"
+                                                 style="object-fit: cover;">
+                                        {% else %}
+                                            <div class="rounded-circle d-inline-flex align-items-center justify-content-center"
+                                                 style="width: 80px; height: 80px; background: var(--gradient-secondary);">
+                                                <i class="bi bi-person fs-4 text-white"></i>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <input type="file"
+                                               name="avatar"
+                                               id="id_avatar"
+                                               class="form-control glass-card"
+                                               accept="image/*">
+                                        <div class="form-text text-muted mt-2">
+                                            Загрузите изображение JPG, PNG или GIF до 5MB
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Имя пользователя (только для просмотра) -->
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold">Имя пользователя</label>
+                                <div class="glass-card p-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-person me-2 text-muted"></i>
+                                        <strong>{{ user.username }}</strong>
+                                        <span class="badge glass-card ms-2">Не изменяется</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-6 mb-4">
+                                <label for="id_email" class="form-label fw-bold">
+                                    Email *
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text glass-card border-end-0">
+                                        <i class="bi bi-envelope"></i>
+                                    </span>
+                                    <input type="email"
+                                           name="email"
+                                           id="id_email"
+                                           class="form-control glass-card"
+                                           value="{{ form.email.value|default:'' }}"
+                                           placeholder="Ваш email"
+                                           required>
+                                </div>
+                                {% if form.email.errors %}
+                                <div class="text-danger small mt-2">
+                                    <i class="bi bi-x-circle me-1"></i>
+                                    {% for error in form.email.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Имя -->
+                            <div class="col-md-6 mb-4">
+                                <label for="id_first_name" class="form-label fw-bold">Имя</label>
+                                <div class="input-group">
+                                    <span class="input-group-text glass-card border-end-0">
+                                        <i class="bi bi-person-badge"></i>
+                                    </span>
+                                    <input type="text"
+                                           name="first_name"
+                                           id="id_first_name"
+                                           class="form-control glass-card"
+                                           value="{{ form.first_name.value|default:'' }}"
+                                           placeholder="Ваше имя">
+                                </div>
+                            </div>
+
+                            <!-- Фамилия -->
+                            <div class="col-md-6 mb-4">
+                                <label for="id_last_name" class="form-label fw-bold">Фамилия</label>
+                                <div class="input-group">
+                                    <span class="input-group-text glass-card border-end-0">
+                                        <i class="bi bi-person-badge-fill"></i>
+                                    </span>
+                                    <input type="text"
+                                           name="last_name"
+                                           id="id_last_name"
+                                           class="form-control glass-card"
+                                           value="{{ form.last_name.value|default:'' }}"
+                                           placeholder="Ваша фамилия">
+                                </div>
+                            </div>
+
+                            <!-- Телефон -->
+                            <div class="col-md-6 mb-4">
+                                <label for="id_phone" class="form-label fw-bold">Телефон</label>
+                                <div class="input-group">
+                                    <span class="input-group-text glass-card border-end-0">
+                                        <i class="bi bi-telephone"></i>
+                                    </span>
+                                    <input type="text"
+                                           name="phone"
+                                           id="id_phone"
+                                           class="form-control glass-card"
+                                           value="{{ form.phone.value|default:'' }}"
+                                           placeholder="+7 (999) 123-45-67">
+                                </div>
+                                {% if form.phone.errors %}
+                                <div class="text-danger small mt-2">
+                                    <i class="bi bi-x-circle me-1"></i>
+                                    {% for error in form.phone.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Дата регистрации (только просмотр) -->
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold">Дата регистрации</label>
+                                <div class="glass-card p-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-calendar-check me-2 text-muted"></i>
+                                        <strong>{{ user.date_joined|date:"d.m.Y H:i" }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Кнопки -->
+                        <div class="d-flex gap-3 mt-4">
+                            <button type="submit" class="btn-neon flex-grow-1 py-3">
+                                <i class="bi bi-save me-2"></i>Сохранить изменения
+                            </button>
+                            <a href="{% url 'users:profile' %}" class="btn btn-outline-light py-3 px-4">
+                                <i class="bi bi-x-lg"></i>
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Предпросмотр аватара перед загрузкой
+document.getElementById('id_avatar').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.querySelector('.profile-avatar img');
+            if (img) {
+                img.src = e.target.result;
+            } else {
+                const avatarDiv = document.querySelector('.profile-avatar');
+                avatarDiv.innerHTML = `<img src="${e.target.result}"
+                                            class="rounded-circle"
+                                            width="120"
+                                            height="120"
+                                            style="object-fit: cover; border: 3px solid var(--accent-primary);">`;
+            }
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+// Добавляем классы ко всем полям формы
+document.addEventListener('DOMContentLoaded', function() {
+    const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"]');
+    inputs.forEach(input => {
+        if (!input.classList.contains('form-control')) {
+            input.classList.add('form-control', 'glass-card');
+        }
+    });
+});
+</script>
+{% endblock %}

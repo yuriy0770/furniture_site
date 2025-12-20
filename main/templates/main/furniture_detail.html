@@ -1,0 +1,299 @@
+<!-- main/furniture_detail.html -->
+{% extends 'main/base.html' %}
+
+{% block title %}{{ product.name }} | BlackWood{% endblock %}
+
+{% block extra_css %}
+<style>
+    .product-gallery {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .main-image {
+        grid-column: span 2;
+        height: 500px;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .thumbnails img {
+        height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.3s, border 0.3s;
+    }
+
+    .thumbnails img:hover {
+        transform: scale(1.05);
+        border: 2px solid var(--accent-gold);
+    }
+
+    .specs-table {
+        background: var(--secondary-dark);
+        border-radius: 12px;
+        padding: 1.5rem;
+    }
+
+    .spec-item {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1rem 0;
+    }
+
+    .spec-item:last-child {
+        border-bottom: none;
+    }
+
+    .action-buttons .btn {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <!-- Хлебные крошки -->
+        <nav aria-label="breadcrumb" class="mb-5">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'main:index' %}">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'main:category' %}">Категории</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'main:furniture' product.category.slug %}">{{
+                    product.category.name }}</a></li>
+                <li class="breadcrumb-item active">{{ product.name|truncatewords:3 }}</li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <!-- Левая колонка - изображения -->
+            <div class="col-lg-7 mb-5 mb-lg-0">
+                <div class="product-gallery mb-4">
+                    <div class="main-image">
+                        <img src="{{ product.image.url }}"
+                             class="img-fluid w-100 h-100 object-fit-cover"
+                             alt="{{ product.name }}"
+                             id="mainImage">
+                    </div>
+
+                    <!-- Если бы были дополнительные изображения -->
+                    <div class="thumbnails">
+                        <img src="{{ product.image.url }}"
+                             onclick="changeImage(this.src)"
+                             class="img-fluid w-100">
+                        <!-- Пример дополнительных изображений -->
+                        <div class="position-relative">
+                            <img src="{{ product.image.url }}"
+                                 onclick="changeImage(this.src)"
+                                 class="img-fluid w-100 opacity-50">
+                            <div class="position-absolute top-50 start-50 translate-middle">
+                                <small class="text-light">+3 фото</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Описание -->
+                <div class="card-product p-4 mb-4">
+                    <h3 class="h4 fw-bold mb-3">Описание</h3>
+                    <div class="text-muted">
+                        {{ product.description|linebreaks }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правая колонка - информация и покупка -->
+            <div class="col-lg-5">
+                <div class="sticky-top" style="top: 100px;">
+                    <!-- Заголовок и цена -->
+                    <div class="mb-4">
+                        <h1 class="display-5 fw-bold mb-3">{{ product.name }}</h1>
+                        <div class="d-flex align-items-center mb-4">
+                            <span class="price-tag fs-3">{{ product.price }} ₽</span>
+                            <span class="ms-3 text-success">
+                                <i class="bi bi-check-circle-fill me-1"></i>В наличии
+                            </span>
+                        </div>
+
+                        <!-- Категория и артикул -->
+                        <div class="d-flex align-items-center text-muted mb-4">
+                            <span class="me-4">
+                                <i class="bi bi-tag me-1"></i>
+                                {{ product.category.name }}
+                            </span>
+                            <span>
+                                <i class="bi bi-upc-scan me-1"></i>
+                                Артикул: {{ product.id|stringformat:"06d" }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Характеристики -->
+                    <div class="specs-table mb-4">
+                        <h3 class="h4 fw-bold mb-3">Характеристики</h3>
+
+                        <div class="spec-item">
+                            <div class="row">
+                                <div class="col-6">
+                                    <span class="text-muted">Материал:</span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="fw-medium">Натуральное дерево, металл</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="spec-item">
+                            <div class="row">
+                                <div class="col-6">
+                                    <span class="text-muted">Цвет:</span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="fw-medium">Чёрный матовый</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="spec-item">
+                            <div class="row">
+                                <div class="col-6">
+                                    <span class="text-muted">Габариты (В×Ш×Г):</span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="fw-medium">200×120×60 см</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="spec-item">
+                            <div class="row">
+                                <div class="col-6">
+                                    <span class="text-muted">Вес:</span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="fw-medium">45 кг</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="spec-item">
+                            <div class="row">
+                                <div class="col-6">
+                                    <span class="text-muted">Сборка:</span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="fw-medium">Требуется сборка</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- В блоке кнопок действий: -->
+                    <div class="action-buttons mb-5">
+                        <div class="d-grid gap-3">
+                            {% if user.is_authenticated %}
+                            <form action="{% url 'main:add_to_cart' product.id %}" method="post" class="mt-3">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-neon w-100 py-3">
+                                    <i class="bi bi-cart-plus me-2"></i>Добавить в корзину
+                                </button>
+                            </form>
+                            {% else %}
+                            <a href="{% url 'users:login' %}?next={{ request.path }}"
+                               class="btn btn-outline-light w-100 py-3 mt-3">
+                                <i class="bi bi-person me-2"></i>Войдите чтобы добавить в корзину
+                            </a>
+                            {% endif %}
+                            <button class="btn btn-outline-light btn-lg">
+                                <i class="bi bi-heart me-2"></i>В избранное
+                            </button>
+
+                            <a href="{% url 'main:furniture' product.category.slug %}"
+                               class="btn btn-outline-secondary btn-lg">
+                                <i class="bi bi-arrow-left me-2"></i>Назад
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Информация о доставке -->
+                    <div class="card-product p-3">
+                        <div class="row text-center g-3">
+                            <div class="col-4">
+                                <i class="bi bi-truck text-success fs-4 d-block mb-2"></i>
+                                <small class="text-muted">Доставка 3-5 дней</small>
+                            </div>
+                            <div class="col-4">
+                                <i class="bi bi-shield-check text-success fs-4 d-block mb-2"></i>
+                                <small class="text-muted">Гарантия 5 лет</small>
+                            </div>
+                            <div class="col-4">
+                                <i class="bi bi-arrow-counterclockwise text-success fs-4 d-block mb-2"></i>
+                                <small class="text-muted">Возврат 30 дней</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Похожие товары -->
+        {% if related_products %}
+        <div class="mt-5 pt-5">
+            <h2 class="display-6 fw-bold mb-4">Похожие товары</h2>
+            <div class="row g-4">
+                {% for related in related_products %}
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-product h-100">
+                        <div class="position-relative overflow-hidden" style="height: 200px;">
+                            <img src="{{ related.image.url }}"
+                                 class="img-fluid w-100 h-100 object-fit-cover"
+                                 alt="{{ related.name }}">
+                        </div>
+                        <div class="p-3">
+                            <h5 class="h6 fw-bold mb-2">{{ related.name|truncatewords:4 }}</h5>
+                            <p class="text-muted small mb-2">{{ related.price }} ₽</p>
+                            <a href="{% url 'main:furniture_detail' related.slug %}"
+                               class="btn btn-sm btn-outline-light w-100">
+                                Посмотреть
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function changeImage(src) {
+        document.getElementById('mainImage').src = src;
+    }
+
+    // Счётчик количества
+    document.addEventListener('DOMContentLoaded', function() {
+        const minusBtn = document.querySelector('.btn-minus');
+        const plusBtn = document.querySelector('.btn-plus');
+        const quantityInput = document.querySelector('.quantity-input');
+
+        if (minusBtn && plusBtn && quantityInput) {
+            minusBtn.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value);
+                if (value > 1) {
+                    quantityInput.value = value - 1;
+                }
+            });
+
+            plusBtn.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value);
+                quantityInput.value = value + 1;
+            });
+        }
+    });
+</script>
+{% endblock %}
