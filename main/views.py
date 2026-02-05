@@ -92,7 +92,6 @@ class AboutView(TemplateView):
 @login_required
 def cart_view(request):
     """Просмотр корзины (только для авторизованных)"""
-    # Получаем или создаем корзину для пользователя
     cart, created = Cart.objects.get_or_create(user=request.user)
 
     context = {
