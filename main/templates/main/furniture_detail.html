@@ -54,18 +54,20 @@
 {% endblock %}
 
 {% block content %}
+
 <section class="py-5">
     <div class="container">
         <!-- Хлебные крошки -->
         <nav aria-label="breadcrumb" class="mb-5">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'main:index' %}">Главная</a></li>
-                <li class="breadcrumb-item"><a href="{% url 'main:category' %}">Категории</a></li>
-                <li class="breadcrumb-item"><a href="{% url 'main:furniture' product.category.slug %}">{{
-                    product.category.name }}</a></li>
-                <li class="breadcrumb-item active">{{ product.name|truncatewords:3 }}</li>
-            </ol>
-        </nav>
+    <div style="color: #cbd5e1; font-size: 0.95rem;">
+        🏠 <a href="{% url 'main:index' %}" style="color: #94a3b8; text-decoration: none;">Главная</a>
+        › 📁 <a href="{% url 'main:category' %}" style="color: #94a3b8; text-decoration: none;">Категории</a>
+        › 🗄️ <a href="{% url 'main:furniture' product.category.slug %}" style="color: #94a3b8; text-decoration: none;">
+            {{ product.category.name }}
+        </a>
+        › ✅ <strong style="color: #f8fafc;">{{ product.name|truncatechars:30 }}</strong>
+    </div>
+</nav>
 
         <div class="row">
             <!-- Левая колонка - изображения -->
